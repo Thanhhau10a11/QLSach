@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.qlsach.adapter.AuthorAdapter;
@@ -39,8 +40,65 @@ public class AuthorsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         authorList = new ArrayList<>();
-        authorAdapter = new AuthorAdapter(authorList);
+        authorAdapter = new AuthorAdapter(authorList, a -> {
+            // Xử lý sự kiện click vào tác giả
+            // Tạo Dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext()); // Sử dụng requireContext()
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_author, null);
+            builder.setView(dialogView);
+
+            // Ánh xạ các view trong dialog
+            TextInputEditText edtAuthorName = dialogView.findViewById(R.id.edit_author_name);
+            edtAuthorName.setText(a.getTenTacGia());
+            Button btnCancel = dialogView.findViewById(R.id.button_cancel);
+            Button btnSave = dialogView.findViewById(R.id.button_save);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            // Xử lý khi nhấn "Hủy"
+            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
+
+            // Xử lý khi nhấn "Lưu"
+            btnSave.setOnClickListener(v1 -> {
+                String tenTacGia = edtAuthorName.getText().toString().trim();
+
+                if (tenTacGia.isEmpty()) {
+                    edtAuthorName.setError("Vui lòng nhập tên tác giả!");
+                } else {
+                    //edit author
+                    // Thực hiện lưu vào database hoặc danh sách (tùy theo yêu cầu)
+                    Toast.makeText(requireContext(), "Đã thêm tác giả: " + tenTacGia, Toast.LENGTH_SHORT).show();
+                    dialog.dismiss(); // Đóng dialog sau khi lưu
+                }
+            });
+        });
         recyclerView.setAdapter(authorAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false; // Không xử lý kéo thả
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Author deletedAuthor = authorList.get(position); // Lưu lại tác giả bị xóa
+
+                //delete author
+
+                // Xóa tác giả khỏi danh sách
+                authorList.remove(position);
+                authorAdapter.notifyItemRemoved(position);
+
+                // Thông báo hoặc hoàn tác (nếu cần)
+                Toast.makeText(getContext(), "Đã xóa tác giả: " + deletedAuthor.getTenTacGia(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+// Gán vào RecyclerView
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         fetchAuthorsFromFirebase();
 

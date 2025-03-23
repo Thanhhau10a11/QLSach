@@ -44,7 +44,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         // Nếu có listener thì gán sự kiện click, nếu không thì bỏ qua
         if (listener != null) {
-            holder.buttonBookMenu.setOnClickListener(v -> listener.onMenuClick(book, v));
+            holder.itemView.setOnClickListener(v -> listener.onMenuClick(book, v));
         } else {
             holder.buttonBookMenu.setVisibility(View.GONE); // Ẩn nút nếu không có listener
         }

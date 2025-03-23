@@ -4,20 +4,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.qlsach.R;
 import com.example.qlsach.model.BorrowedBook;
-
 import java.util.List;
 
 public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapter.ViewHolder> {
     private List<BorrowedBook> borrowedBookList;
+    private OnItemClickListener listener; // Interface xử lý sự kiện click
 
-    public BorrowedBookAdapter(List<BorrowedBook> borrowedBookList) {
+    // Interface sự kiện click
+    public interface OnItemClickListener {
+        void onItemClick(BorrowedBook book);
+    }
+
+    // Constructor
+    public BorrowedBookAdapter(List<BorrowedBook> borrowedBookList, OnItemClickListener listener) {
         this.borrowedBookList = borrowedBookList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,10 +36,17 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BorrowedBook book = borrowedBookList.get(position);
 
-        // Sử dụng đúng thuộc tính từ model BorrowedBook
-        holder.textBookTitle.setText(book.getIdSach());  // ID sách
-        holder.textBorrowDate.setText(book.getNgayMuon());  // Ngày mượn
-        holder.textDueDate.setText(book.getNgayTra());  // Ngày trả
+        // Hiển thị thông tin sách mượn
+        holder.textBookTitle.setText(book.getIdSach());
+        holder.textBorrowDate.setText(book.getNgayMuon());
+        holder.textDueDate.setText(book.getNgayTra());
+
+        // Gán sự kiện click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(book);
+            }
+        });
     }
 
     @Override

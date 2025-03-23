@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,8 +45,73 @@ public class BooksFragment extends Fragment {
         filteredList = new ArrayList<>();
 
         // Gán adapter trước khi fetch dữ liệu
-        bookAdapter = new BookAdapter(filteredList);
+        bookAdapter = new BookAdapter(filteredList, (b, v1) -> {
+            // Xử lý sự kiện click vào sách
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            View dialogView = inflater.inflate(R.layout.dialog_add_book, null);
+            builder.setView(dialogView);
+
+            // Ánh xạ các thành phần giao diện
+            EditText edtTitle = dialogView.findViewById(R.id.edtBookTitle);
+            edtTitle.setText(b.getTenSach());
+            EditText edtGenreId = dialogView.findViewById(R.id.edtGenreId);
+            edtGenreId.setText(String.valueOf(b.getIdTheLoai()));
+            EditText edtGenreName = dialogView.findViewById(R.id.edtGenreName);
+            edtGenreName.setText(b.getTenTheLoai());
+            EditText edtAuthorId = dialogView.findViewById(R.id.edtAuthorId);
+            edtAuthorId.setText(String.valueOf(b.getIdTacGia()));
+            EditText edtAuthorName = dialogView.findViewById(R.id.edtAuthorName);
+            edtAuthorName.setText(b.getTenTacGia());
+
+            builder.setPositiveButton("Thêm", (dialog, which) -> {
+                String tenSach = edtTitle.getText().toString().trim();
+                String idTheLoaiStr = edtGenreId.getText().toString().trim();
+                String tenTheLoai = edtGenreName.getText().toString().trim();
+                String idTacGiaStr = edtAuthorId.getText().toString().trim();
+                String tenTacGia = edtAuthorName.getText().toString().trim();
+
+                if (!tenSach.isEmpty() && !idTheLoaiStr.isEmpty() && !tenTheLoai.isEmpty()
+                        && !idTacGiaStr.isEmpty() && !tenTacGia.isEmpty()) {
+
+                    int idTheLoai = Integer.parseInt(idTheLoaiStr);
+                    int idTacGia = Integer.parseInt(idTacGiaStr);
+
+                    // edit book
+                    Toast.makeText(getContext(), "Đã thêm sách: " + tenSach, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
         recyclerView.setAdapter(bookAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false; // Không dùng tính năng kéo đổi vị trí
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Book deletedBook = filteredList.get(position);
+
+                //delete book
+
+                // Xóa sách khỏi danh sách
+                filteredList.remove(position);
+                bookAdapter.notifyItemRemoved(position);
+
+                // Thông báo
+                Toast.makeText(getContext(), "Đã xóa sách: " + deletedBook.getTenSach(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         fetchBooksFromFirebase(); // Đảm bảo gọi sau khi set adapter
         setupSearchView();

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,8 +48,74 @@ public class BorrowingsFragment extends Fragment {
 
         // Khởi tạo danh sách rỗng & Adapter ngay từ đầu
         borrowedBookList = new ArrayList<>();
-        adapter = new BorrowedBookAdapter(borrowedBookList);
+        adapter = new BorrowedBookAdapter(borrowedBookList, book -> {
+            // Xử lý sự kiện click vào sách mượn
+            // Sử dụng inflater đã có sẵn
+            View dialogView = inflater.inflate(R.layout.dialog_add_borrowing, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setView(dialogView);
+
+            // Ánh xạ view
+            TextInputEditText edtIdSach = dialogView.findViewById(R.id.edit_id_sach);
+            edtIdSach.setText(book.getIdSach());
+            TextInputEditText edtNgayMuon = dialogView.findViewById(R.id.edit_ngay_muon);
+            edtNgayMuon.setText(book.getNgayMuon());
+            TextInputEditText edtNgayTra = dialogView.findViewById(R.id.edit_ngay_tra);
+            edtNgayTra.setText(book.getNgayTra());
+            Button btnCancel = dialogView.findViewById(R.id.button_cancel);
+            Button btnSave = dialogView.findViewById(R.id.button_save);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            // Xử lý sự kiện nút Hủy
+            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
+
+            // Xử lý sự kiện nút Lưu
+            btnSave.setOnClickListener(v1 -> {
+                String idSach = edtIdSach.getText().toString().trim();
+                String ngayMuon = edtNgayMuon.getText().toString().trim();
+                String ngayTra = edtNgayTra.getText().toString().trim();
+
+                if (idSach.isEmpty() || ngayMuon.isEmpty() || ngayTra.isEmpty()) {
+                    Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // edit borrowed book
+                    Toast.makeText(requireContext(), "Đã thêm phiếu mượn!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+        });
         recyclerView.setAdapter(adapter); // ⚠️ Đặt adapter ngay lập tức
+
+        // Khởi tạo ItemTouchHelper
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false; // Không xử lý kéo thả, chỉ xử lý vuốt
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                if (position >= 0 && position < borrowedBookList.size()) {
+
+                    //delete borrowed book
+
+                    // Xóa item khỏi danh sách
+                    borrowedBookList.remove(position);
+                    adapter.notifyItemRemoved(position);
+
+                    // Hiển thị thông báo (tùy chọn)
+                    Toast.makeText(getContext(), "Đã xóa phiếu mượn!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+// Gắn ItemTouchHelper vào RecyclerView
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         // Lấy dữ liệu từ Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference("MuonSach");

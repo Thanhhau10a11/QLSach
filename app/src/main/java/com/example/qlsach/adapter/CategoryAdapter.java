@@ -13,9 +13,17 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private List<Category> categoryList;
+    private OnCategoryClickListener listener; // Lắng nghe sự kiện click
 
-    public CategoryAdapter(List<Category> categoryList) {
+    // Interface để bắt sự kiện click
+    public interface OnCategoryClickListener {
+        void onCategoryClick(Category category);
+    }
+
+    // Constructor có thêm listener
+    public CategoryAdapter(List<Category> categoryList, OnCategoryClickListener listener) {
         this.categoryList = categoryList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,6 +37,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.textGenreName.setText(category.getTenTheLoai());
+
+        // Bắt sự kiện click vào item
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onCategoryClick(category);
+            }
+        });
     }
 
     @Override

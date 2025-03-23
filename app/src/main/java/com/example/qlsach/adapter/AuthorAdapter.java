@@ -3,7 +3,6 @@ package com.example.qlsach.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +12,12 @@ import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
     private List<Author> authorList;
+    private OnAuthorClickListener listener;
 
-    public AuthorAdapter(List<Author> authorList) {
+    // ✅ Constructor nhận danh sách và listener
+    public AuthorAdapter(List<Author> authorList, OnAuthorClickListener listener) {
         this.authorList = authorList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,6 +31,13 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     public void onBindViewHolder(@NonNull AuthorViewHolder holder, int position) {
         Author author = authorList.get(position);
         holder.textAuthorName.setText(author.getTenTacGia());
+
+        // ✅ Bắt sự kiện click vào item
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAuthorClick(author);
+            }
+        });
     }
 
     @Override
@@ -38,12 +47,15 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
         TextView textAuthorName;
-        ImageButton buttonAuthorMenu;
 
         public AuthorViewHolder(@NonNull View itemView) {
             super(itemView);
             textAuthorName = itemView.findViewById(R.id.text_author_name);
-            buttonAuthorMenu = itemView.findViewById(R.id.button_author_menu);
         }
+    }
+
+    // ✅ Interface để bắt sự kiện click vào item
+    public interface OnAuthorClickListener {
+        void onAuthorClick(Author author);
     }
 }
