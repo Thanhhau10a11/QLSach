@@ -11,6 +11,11 @@ public class Book {
         this.idTheLoai = idTheLoai;
         this.idTacGia = idTacGia;
     }
+    public Book(String tenSach, String idTheLoai, String idTacGia) {
+        this.tenSach = tenSach;
+        this.idTheLoai = idTheLoai;
+        this.idTacGia = idTacGia;
+    }
 
     public String getId() {
         return id;

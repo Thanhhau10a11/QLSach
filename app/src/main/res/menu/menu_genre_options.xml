@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_edit_genre"
+        android:title="Sửa thể loại"
+        android:icon="@drawable/ic_edit"/>
+    <item
+        android:id="@+id/menu_delete_genre"
+        android:title="Xóa thể loại"
+        android:icon="@drawable/ic_delete"/>
+</menu>

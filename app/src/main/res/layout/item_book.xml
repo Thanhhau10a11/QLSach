@@ -31,7 +31,7 @@
                 android:id="@+id/text_book_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tên sách"
+                android:text="Đắc Nhân Tâm"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Tác giả"
+                android:text="Dale Carnegie"
                 android:textSize="14sp" />
 
             <TextView
@@ -48,18 +48,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Thể loại"
+                android:text="Tâm Lý - Kỹ Năng Sống"
                 android:textSize="14sp"
                 android:textColor="@color/colorAccent" />
         </LinearLayout>
 
+        <!-- Nút chỉnh sửa -->
         <ImageButton
-            android:id="@+id/button_book_menu"
+            android:id="@+id/button_edit_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/more_options"
             android:padding="8dp"
-            android:src="@drawable/ic_more" />
+            android:src="@drawable/ic_edit" />
+
+        <!-- Nút xóa -->
+        <ImageButton
+            android:id="@+id/button_delete_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

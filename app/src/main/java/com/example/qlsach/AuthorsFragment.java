@@ -46,11 +46,12 @@ public class AuthorsFragment extends Fragment {
 
         fabAddAuthor.setOnClickListener(v -> {
             // Tạo Dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext()); // Sử dụng requireContext()
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_author, null);
             builder.setView(dialogView);
 
             // Ánh xạ các view trong dialog
+            TextInputEditText edtAuthorId = dialogView.findViewById(R.id.edit_author_id);
             TextInputEditText edtAuthorName = dialogView.findViewById(R.id.edit_author_name);
             Button btnCancel = dialogView.findViewById(R.id.button_cancel);
             Button btnSave = dialogView.findViewById(R.id.button_save);
@@ -63,17 +64,32 @@ public class AuthorsFragment extends Fragment {
 
             // Xử lý khi nhấn "Lưu"
             btnSave.setOnClickListener(v1 -> {
-                String tenTacGia = edtAuthorName.getText().toString().trim();
+                String authorId = edtAuthorId.getText().toString().trim();
+                String authorName = edtAuthorName.getText().toString().trim();
 
-                if (tenTacGia.isEmpty()) {
+                if (authorName.isEmpty()) {
                     edtAuthorName.setError("Vui lòng nhập tên tác giả!");
-                } else {
-                    // Thực hiện lưu vào database hoặc danh sách (tùy theo yêu cầu)
-                    Toast.makeText(requireContext(), "Đã thêm tác giả: " + tenTacGia, Toast.LENGTH_SHORT).show();
-                    dialog.dismiss(); // Đóng dialog sau khi lưu
+                    return;
                 }
+
+                // Nếu không nhập ID, Firebase sẽ tự tạo ID
+                DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("TacGia");
+                if (authorId.isEmpty()) {
+                    authorId = authorRef.push().getKey(); // Tạo ID tự động nếu người dùng không nhập
+                }
+
+                Author newAuthor = new Author(authorId, authorName);
+                authorRef.child(authorId).setValue(newAuthor)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(requireContext(), "Đã thêm tác giả: " + authorName, Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        })
+                        .addOnFailureListener(e ->
+                                Toast.makeText(requireContext(), "Lỗi khi thêm tác giả!", Toast.LENGTH_SHORT).show()
+                        );
             });
         });
+
 
 
 

@@ -54,14 +54,14 @@
                         android:text="@string/menu_books"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_book_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="245"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_book_count"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="245"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/colorPrimary" />-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -95,14 +95,14 @@
                         android:text="@string/menu_authors"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_author_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="78"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_author_count"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="78"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/colorPrimary" />-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -136,14 +136,14 @@
                         android:text="@string/menu_genres"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_genre_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="32"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_genre_count"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="32"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/colorPrimary" />-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -177,14 +177,14 @@
                         android:text="@string/menu_borrowings"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_borrowing_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="56"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_borrowing_count"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="56"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/colorPrimary" />-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </GridLayout>

@@ -38,23 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập ID thể loại"
-            android:inputType="number" />
+             />
 
-        <!-- Nhập tên thể loại -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tên thể loại:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
 
-        <EditText
-            android:id="@+id/edtGenreName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập tên thể loại"
-            android:inputType="text" />
 
         <!-- Nhập ID tác giả -->
         <TextView
@@ -70,23 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập ID tác giả"
-            android:inputType="number" />
+             />
 
-        <!-- Nhập tên tác giả -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tên tác giả:"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
-
-        <EditText
-            android:id="@+id/edtAuthorName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập tên tác giả"
-            android:inputType="text" />
 
     </LinearLayout>
 </ScrollView>

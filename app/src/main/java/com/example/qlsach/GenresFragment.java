@@ -39,44 +39,48 @@ public class GenresFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         categoryList = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(categoryList);
+        categoryAdapter = new CategoryAdapter(requireContext(), categoryList, this::fetchGenresFromFirebase);
         recyclerView.setAdapter(categoryAdapter);
 
         fetchGenresFromFirebase();
 
-        fabAddGenre.setOnClickListener(v -> {
-            // Tạo Dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext()); // Sử dụng requireContext()
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_genre, null);
-            builder.setView(dialogView);
-
-            // Ánh xạ các view trong dialog
-            TextInputEditText edtGenreName = dialogView.findViewById(R.id.edit_genre_name);
-            Button btnCancel = dialogView.findViewById(R.id.button_cancel);
-            Button btnSave = dialogView.findViewById(R.id.button_save);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            // Xử lý khi nhấn "Hủy"
-            btnCancel.setOnClickListener(v1 -> dialog.dismiss());
-
-            // Xử lý khi nhấn "Lưu"
-            btnSave.setOnClickListener(v1 -> {
-                String tenTheLoai = edtGenreName.getText().toString().trim();
-
-                if (tenTheLoai.isEmpty()) {
-                    edtGenreName.setError("Vui lòng nhập tên thể loại!");
-                } else {
-                    // Thực hiện lưu vào database hoặc danh sách (tùy theo yêu cầu)
-                    Toast.makeText(requireContext(), "Đã thêm thể loại: " + tenTheLoai, Toast.LENGTH_SHORT).show();
-                    dialog.dismiss(); // Đóng dialog sau khi lưu
-                }
-            });
-        });
-
+        fabAddGenre.setOnClickListener(v -> showAddGenreDialog());
 
         return view;
+    }
+
+    private void showAddGenreDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_genre, null);
+        builder.setView(dialogView);
+
+        TextInputEditText edtGenreName = dialogView.findViewById(R.id.edit_genre_name);
+        Button btnCancel = dialogView.findViewById(R.id.button_cancel);
+        Button btnSave = dialogView.findViewById(R.id.button_save);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnCancel.setOnClickListener(v1 -> dialog.dismiss());
+
+        btnSave.setOnClickListener(v1 -> {
+            String genreName = edtGenreName.getText().toString().trim();
+            if (genreName.isEmpty()) {
+                edtGenreName.setError("Vui lòng nhập tên thể loại!");
+                return;
+            }
+
+            DatabaseReference genreRef = FirebaseDatabase.getInstance().getReference("TheLoai");
+            String genreId = genreRef.push().getKey();
+            Category newGenre = new Category(genreId, genreName);
+
+            genreRef.child(genreId).setValue(newGenre)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(requireContext(), "Đã thêm thể loại!", Toast.LENGTH_SHORT).show();
+                        fetchGenresFromFirebase();
+                        dialog.dismiss();
+                    });
+        });
     }
 
     private void fetchGenresFromFirebase() {
@@ -86,8 +90,7 @@ public class GenresFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoryList.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    Category category = data.getValue(Category.class);
-                    categoryList.add(category);
+                    categoryList.add(data.getValue(Category.class));
                 }
                 categoryAdapter.notifyDataSetChanged();
             }

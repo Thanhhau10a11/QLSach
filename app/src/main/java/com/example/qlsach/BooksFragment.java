@@ -158,25 +158,15 @@ public class BooksFragment extends Fragment {
             // Ánh xạ các thành phần giao diện
             EditText edtTitle = dialogView.findViewById(R.id.edtBookTitle);
             EditText edtGenreId = dialogView.findViewById(R.id.edtGenreId);
-            EditText edtGenreName = dialogView.findViewById(R.id.edtGenreName);
             EditText edtAuthorId = dialogView.findViewById(R.id.edtAuthorId);
-            EditText edtAuthorName = dialogView.findViewById(R.id.edtAuthorName);
 
             builder.setPositiveButton("Thêm", (dialog, which) -> {
                 String tenSach = edtTitle.getText().toString().trim();
-                String idTheLoaiStr = edtGenreId.getText().toString().trim();
-                String tenTheLoai = edtGenreName.getText().toString().trim();
-                String idTacGiaStr = edtAuthorId.getText().toString().trim();
-                String tenTacGia = edtAuthorName.getText().toString().trim();
+                String idTheLoai = edtGenreId.getText().toString().trim();
+                String idTacGia = edtAuthorId.getText().toString().trim();
 
-                if (!tenSach.isEmpty() && !idTheLoaiStr.isEmpty() && !tenTheLoai.isEmpty()
-                        && !idTacGiaStr.isEmpty() && !tenTacGia.isEmpty()) {
-
-                    int idTheLoai = Integer.parseInt(idTheLoaiStr);
-                    int idTacGia = Integer.parseInt(idTacGiaStr);
-
-                    // Xử lý thêm sách vào database hoặc danh sách
-                    Toast.makeText(getContext(), "Đã thêm sách: " + tenSach, Toast.LENGTH_SHORT).show();
+                if (!tenSach.isEmpty() && !idTheLoai.isEmpty() && !idTacGia.isEmpty()) {
+                    addBookToFirebase(tenSach, idTheLoai, idTacGia);
                 } else {
                     Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 }
@@ -187,7 +177,29 @@ public class BooksFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
         });
-
-
     }
+    private void addBookToFirebase(String tenSach, String idTheLoai, String idTacGia) {
+        DatabaseReference sachRef = FirebaseDatabase.getInstance().getReference("Sach");
+
+        // Tạo ID ngẫu nhiên cho sách mới
+        String bookId = sachRef.push().getKey();
+        if (bookId == null) {
+            Toast.makeText(getContext(), "Lỗi tạo ID sách!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Tạo đối tượng sách mới
+        Book newBook = new Book(tenSach, idTheLoai, idTacGia);
+
+        // Lưu vào Firebase
+        sachRef.child(bookId).setValue(newBook)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "Sách đã được thêm thành công!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Lỗi khi thêm sách: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
 }
