@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "414329865032",
+    "project_id": "qlsach-3ebd6",
+    "storage_bucket": "qlsach-3ebd6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414329865032:android:3eb4c9f8c3245988bba97d",
+        "android_client_info": {
+          "package_name": "com.example.qlsach"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-PlNkqWDINRY2V6ZVgfODx9bLD-cnrqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
