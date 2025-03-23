@@ -23,9 +23,20 @@ public class BorrowedBook {
     }
 
     public BorrowedBook() {}
-
-    public BorrowedBook(String id, String idSach, String ngayMuon, String ngayTra) {
+    public BorrowedBook(String id,String idSach, String ngayMuon, String ngayTra) {
         this.id = id;
+        this.idSach = idSach;
+        this.ngayMuon = ngayMuon;
+        this.ngayTra = ngayTra;
+    }
+
+    public BorrowedBook(String idSach, String ngayMuon, String ngayTra) {
+        this.id = id;
+        this.idSach = idSach;
+        this.ngayMuon = ngayMuon;
+        this.ngayTra = ngayTra;
+    }
+    public BorrowedBook( String ngayMuon, String ngayTra) {
         this.idSach = idSach;
         this.ngayMuon = ngayMuon;
         this.ngayTra = ngayTra;
