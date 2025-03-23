@@ -80,5 +80,15 @@
     <string name="error">Lỗi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="select_image">Chọn ảnh</string>
+    <string name="validation_empty_id">Vui lòng nhập mã sách</string>
+    <string name="validation_empty_title">Vui lòng nhập tên sách</string>
+    <string name="validation_empty_author">Vui lòng chọn tác giả</string>
+    <string name="validation_empty_genre">Vui lòng chọn thể loại</string>
+    <string name="validation_invalid_quantity">Số lượng không hợp lệ</string>
+    <string name="validation_invalid_year">Năm xuất bản không hợp lệ</string>
+    <string name="book_added">Thêm sách thành công</string>
+    <string name="book_updated">Cập nhật sách thành công</string>
 </resources>
 

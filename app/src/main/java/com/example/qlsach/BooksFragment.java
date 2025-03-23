@@ -2,12 +2,14 @@ package com.example.qlsach;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.widget.SearchView;
 import com.example.qlsach.adapter.BookAdapter;
@@ -148,8 +150,44 @@ public class BooksFragment extends Fragment {
 
     private void setupFabButton() {
         fabAddBook.setOnClickListener(v -> {
-            // Chuyển sang màn hình thêm sách
-            Toast.makeText(getContext(), "Mở màn hình thêm sách!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_add_book, null);
+            builder.setView(dialogView);
+
+            // Ánh xạ các thành phần giao diện
+            EditText edtTitle = dialogView.findViewById(R.id.edtBookTitle);
+            EditText edtGenreId = dialogView.findViewById(R.id.edtGenreId);
+            EditText edtGenreName = dialogView.findViewById(R.id.edtGenreName);
+            EditText edtAuthorId = dialogView.findViewById(R.id.edtAuthorId);
+            EditText edtAuthorName = dialogView.findViewById(R.id.edtAuthorName);
+
+            builder.setPositiveButton("Thêm", (dialog, which) -> {
+                String tenSach = edtTitle.getText().toString().trim();
+                String idTheLoaiStr = edtGenreId.getText().toString().trim();
+                String tenTheLoai = edtGenreName.getText().toString().trim();
+                String idTacGiaStr = edtAuthorId.getText().toString().trim();
+                String tenTacGia = edtAuthorName.getText().toString().trim();
+
+                if (!tenSach.isEmpty() && !idTheLoaiStr.isEmpty() && !tenTheLoai.isEmpty()
+                        && !idTacGiaStr.isEmpty() && !tenTacGia.isEmpty()) {
+
+                    int idTheLoai = Integer.parseInt(idTheLoaiStr);
+                    int idTacGia = Integer.parseInt(idTacGiaStr);
+
+                    // Xử lý thêm sách vào database hoặc danh sách
+                    Toast.makeText(getContext(), "Đã thêm sách: " + tenSach, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
+
+
     }
 }
