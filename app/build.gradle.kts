@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.qlsach"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.qlsach"

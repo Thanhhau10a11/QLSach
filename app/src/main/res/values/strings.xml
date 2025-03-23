@@ -1,3 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QLSach</string>
+    <string name="navigation_drawer_open">Quản Lý Sách</string>
+    <string name="navigation_drawer_close">Quản Lý Sách</string>
+    <string name="app_name">Quản Lý Sách</string>
+    <string name="app_description">Ứng dụng quản lý sách, tác giả, thể loại và mượn sách</string>
+    <string name="app_logo">Logo ứng dụng</string>
+
+    <!-- Menu -->
+    <string name="menu_dashboard">Trang Chủ</string>
+    <string name="menu_books">Quản Lý Sách</string>
+    <string name="menu_authors">Quản Lý Tác Giả</string>
+    <string name="menu_genres">Quản Lý Thể Loại</string>
+    <string name="menu_borrowings">Quản Lý Mượn Sách</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Tổng Quan</string>
+    <string name="recent_activities">Hoạt Động Gần Đây</string>
+
+    <!-- Books -->
+    <string name="search_books">Tìm kiếm sách...</string>
+    <string name="add_book">Thêm Sách Mới</string>
+    <string name="edit_book">Chỉnh Sửa Sách</string>
+    <string name="book_cover">Bìa sách</string>
+    <string name="book_id">Mã Sách</string>
+    <string name="book_title">Tên Sách</string>
+    <string name="book_author">Tác Giả</string>
+    <string name="book_genre">Thể Loại</string>
+    <string name="book_quantity">Số Lượng</string>
+    <string name="book_publish_year">Năm Xuất Bản</string>
+    <string name="book_description">Mô Tả</string>
+    <string name="book">Sách</string>
+
+    <!-- Authors -->
+    <string name="search_authors">Tìm kiếm tác giả...</string>
+    <string name="add_author">Thêm Tác Giả</string>
+    <string name="edit_author">Chỉnh Sửa Tác Giả</string>
+    <string name="author_image">Ảnh tác giả</string>
+    <string name="author_id">Mã Tác Giả</string>
+    <string name="author_name">Tên Tác Giả</string>
+    <string name="author_nationality">Quốc Tịch</string>
+
+    <!-- Genres -->
+    <string name="search_genres">Tìm kiếm thể loại...</string>
+    <string name="add_genre">Thêm Thể Loại</string>
+    <string name="edit_genre">Chỉnh Sửa Thể Loại</string>
+    <string name="genre_icon">Biểu tượng thể loại</string>
+    <string name="genre_id">Mã Thể Loại</string>
+    <string name="genre_name">Tên Thể Loại</string>
+    <string name="genre_description">Mô Tả Thể Loại</string>
+
+    <!-- Borrowings -->
+    <string name="search_borrowings">Tìm kiếm phiếu mượn...</string>
+    <string name="add_borrowing">Thêm Phiếu Mượn</string>
+    <string name="edit_borrowing">Chỉnh Sửa Phiếu Mượn</string>
+    <string name="borrowing_id">Mã Phiếu Mượn</string>
+    <string name="borrower_name">Tên Người Mượn</string>
+    <string name="borrower_phone">Số Điện Thoại</string>
+    <string name="borrower">Người mượn</string>
+    <string name="select_book">Chọn Sách</string>
+    <string name="borrow_date">Ngày Mượn</string>
+    <string name="due_date">Hạn Trả</string>
+    <string name="return_date">Ngày Trả</string>
+    <string name="notes">Ghi Chú</string>
+    <string name="tab_all">Tất Cả</string>
+    <string name="tab_borrowing">Đang Mượn</string>
+    <string name="tab_returned">Đã Trả</string>
+    <string name="tab_overdue">Quá Hạn</string>
+
+    <!-- Common -->
+    <string name="save">Lưu</string>
+    <string name="cancel">Hủy</string>
+    <string name="delete">Xóa</string>
+    <string name="more_options">Thêm tùy chọn</string>
+    <string name="confirm_delete">Xác nhận xóa</string>
+    <string name="confirm_delete_message">Bạn có chắc chắn muốn xóa mục này không?</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="success">Thành công</string>
+    <string name="error">Lỗi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
+
