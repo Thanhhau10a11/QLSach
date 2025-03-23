@@ -1,8 +1,10 @@
 package com.example.qlsach.adapter;
 
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,10 +63,67 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     }
 
     private void editBook(Book book, View v) {
-        // Chỉnh sửa sách (ví dụ: hiển thị dialog để thay đổi thông tin)
-        // Đây là ví dụ cơ bản, bạn có thể mở một dialog cho phép người dùng sửa thông tin sách
-        Toast.makeText(v.getContext(), "Chỉnh sửa sách: " + book.getTenSach(), Toast.LENGTH_SHORT).show();
-        // Cập nhật dữ liệu sách vào Firebase nếu cần
+        // Tạo dialog chỉnh sửa
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        LayoutInflater inflater = LayoutInflater.from(v.getContext());
+        View dialogView = inflater.inflate(R.layout.dialog_edit_book, null);
+        builder.setView(dialogView);
+
+        // Ánh xạ các EditText từ dialog
+        EditText edtTitle = dialogView.findViewById(R.id.edtBookTitle);
+        EditText edtGenreId = dialogView.findViewById(R.id.edtGenreId);
+        EditText edtAuthorId = dialogView.findViewById(R.id.edtAuthorId);
+
+        // Điền các giá trị hiện tại của sách vào dialog
+        edtTitle.setText(book.getTenSach());
+        edtGenreId.setText(book.getIdTheLoai());
+        edtAuthorId.setText(book.getIdTacGia());
+
+        // Khi người dùng nhấn nút Lưu
+        builder.setPositiveButton("Lưu", (dialog, which) -> {
+            String title = edtTitle.getText().toString().trim();
+            String genreId = edtGenreId.getText().toString().trim();
+            String authorId = edtAuthorId.getText().toString().trim();
+
+            if (!title.isEmpty() && !genreId.isEmpty() && !authorId.isEmpty()) {
+                // Cập nhật thông tin sách trong Firebase
+                updateBookInFirebase(book.getId(), title, genreId, authorId, v);
+            } else {
+                Toast.makeText(v.getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Khi người dùng nhấn nút Hủy
+        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss());
+
+        // Tạo và hiển thị dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void updateBookInFirebase(String bookId, String title, String genreId, String authorId, View v) {
+        // Lấy reference của sách cần cập nhật
+        DatabaseReference bookRef = FirebaseDatabase.getInstance().getReference("Sach").child(bookId);
+
+        // Cập nhật các trường thông tin của sách
+        bookRef.child("tenSach").setValue(title);
+        bookRef.child("idTheLoai").setValue(genreId);
+        bookRef.child("idTacGia").setValue(authorId)
+                .addOnSuccessListener(aVoid -> {
+                    // Cập nhật thành công
+                    Toast.makeText(v.getContext(), "Cập nhật thông tin sách thành công!", Toast.LENGTH_SHORT).show();
+                    // Cập nhật lại danh sách sách sau khi chỉnh sửa
+                    fetchBooksFromFirebase();
+                })
+                .addOnFailureListener(e -> {
+                    // Cập nhật thất bại
+                    Toast.makeText(v.getContext(), "Lỗi khi cập nhật sách: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void fetchBooksFromFirebase() {
+        // Lấy lại danh sách sách từ Firebase
+        // Phương thức này có thể được sử dụng để refresh lại dữ liệu trong adapter
     }
 
     private void deleteBook(Book book, View v) {

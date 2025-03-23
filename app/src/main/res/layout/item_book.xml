@@ -25,51 +25,52 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:paddingStart="8dp">
 
             <TextView
                 android:id="@+id/text_book_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đắc Nhân Tâm"
+                android:text="Book Title"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/text_book_author"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Dale Carnegie"
-                android:textSize="14sp" />
+                android:text="Author"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/text_book_genre"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Tâm Lý - Kỹ Năng Sống"
+                android:text="Genre"
                 android:textSize="14sp"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@android:color/darker_gray" />
         </LinearLayout>
 
-        <!-- Nút chỉnh sửa -->
-        <ImageButton
-            android:id="@+id/button_edit_book"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:src="@drawable/ic_edit" />
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-        <!-- Nút xóa -->
-        <ImageButton
-            android:id="@+id/button_delete_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/delete"
-            android:padding="8dp"
-            android:src="@drawable/ic_delete" />
+            <ImageButton
+                android:id="@+id/button_edit_book"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:contentDescription="Edit Book" />
+
+            <ImageButton
+                android:id="@+id/button_delete_book"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:contentDescription="Delete Book" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

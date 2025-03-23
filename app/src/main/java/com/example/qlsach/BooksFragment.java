@@ -20,6 +20,7 @@ import com.google.firebase.database.*;
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
+
 public class BooksFragment extends Fragment {
     private RecyclerView recyclerView;
     private BookAdapter bookAdapter;
@@ -53,7 +54,6 @@ public class BooksFragment extends Fragment {
 
         return view;
     }
-
 
     private void fetchBooksFromFirebase() {
         Log.d("BooksFragment", "Fetching books from Firebase...");
@@ -122,7 +122,6 @@ public class BooksFragment extends Fragment {
         });
     }
 
-
     private void setupSearchView() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -178,6 +177,7 @@ public class BooksFragment extends Fragment {
             dialog.show();
         });
     }
+
     private void addBookToFirebase(String tenSach, String idTheLoai, String idTacGia) {
         DatabaseReference sachRef = FirebaseDatabase.getInstance().getReference("Sach");
 
@@ -200,6 +200,4 @@ public class BooksFragment extends Fragment {
                     Toast.makeText(getContext(), "Lỗi khi thêm sách: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

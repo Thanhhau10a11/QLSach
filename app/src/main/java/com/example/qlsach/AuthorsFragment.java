@@ -45,12 +45,11 @@ public class AuthorsFragment extends Fragment {
         fetchAuthorsFromFirebase();
 
         fabAddAuthor.setOnClickListener(v -> {
-            // Tạo Dialog
+            // Tạo Dialog thêm tác giả
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_author, null);
             builder.setView(dialogView);
 
-            // Ánh xạ các view trong dialog
             TextInputEditText edtAuthorId = dialogView.findViewById(R.id.edit_author_id);
             TextInputEditText edtAuthorName = dialogView.findViewById(R.id.edit_author_name);
             Button btnCancel = dialogView.findViewById(R.id.button_cancel);
@@ -59,10 +58,8 @@ public class AuthorsFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
 
-            // Xử lý khi nhấn "Hủy"
             btnCancel.setOnClickListener(v1 -> dialog.dismiss());
 
-            // Xử lý khi nhấn "Lưu"
             btnSave.setOnClickListener(v1 -> {
                 String authorId = edtAuthorId.getText().toString().trim();
                 String authorName = edtAuthorName.getText().toString().trim();
@@ -72,10 +69,9 @@ public class AuthorsFragment extends Fragment {
                     return;
                 }
 
-                // Nếu không nhập ID, Firebase sẽ tự tạo ID
                 DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("TacGia");
                 if (authorId.isEmpty()) {
-                    authorId = authorRef.push().getKey(); // Tạo ID tự động nếu người dùng không nhập
+                    authorId = authorRef.push().getKey(); // Tạo ID tự động
                 }
 
                 Author newAuthor = new Author(authorId, authorName);
@@ -84,14 +80,9 @@ public class AuthorsFragment extends Fragment {
                             Toast.makeText(requireContext(), "Đã thêm tác giả: " + authorName, Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         })
-                        .addOnFailureListener(e ->
-                                Toast.makeText(requireContext(), "Lỗi khi thêm tác giả!", Toast.LENGTH_SHORT).show()
-                        );
+                        .addOnFailureListener(e -> Toast.makeText(requireContext(), "Lỗi khi thêm tác giả!", Toast.LENGTH_SHORT).show());
             });
         });
-
-
-
 
         return view;
     }
